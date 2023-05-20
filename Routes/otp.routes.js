@@ -76,7 +76,7 @@ router.post("/verify", async (req, res) => {
     // Find the OTP code in the database
     const otp = await OtpModel.findOne({
       phoneNumber,
-      otp: "12345",
+      otp: otpCode,
       expiresAt: { $gt: new Date() },
     });
     if (!otp) {
