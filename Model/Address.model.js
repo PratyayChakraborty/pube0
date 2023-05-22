@@ -8,10 +8,10 @@ const AddressSchema = new mongoose.Schema(
     locality: { type: String },
     address: { type: String },
     city: { type: String },
-    state: [{ type: String }],
+    state: { type: String },
     landmark: { type: String },
     alternatephone: { type: Number },
-    addresstype:[{ type: String }],
+    addresstype:{ type: String },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
