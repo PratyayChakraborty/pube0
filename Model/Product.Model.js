@@ -10,12 +10,17 @@ const productSchema = new mongoose.Schema(
     networkServiceProvider: { type: String },
     os: { type: String },
     technology: { type: String },
-    description: {
-      heading: { type: String },
-      bullet_points: [{ type: String }],
-    },
-    category: [{ type: String }],
-    image: [{ type: String }],
+    description: { type: String },
+    category: [{ type: String,default:"all" }],
+    phoneColour:[{
+      color: { type: String },
+      img1:{ type: String },
+      img2:{ type: String },
+      img3:{ type: String },
+      img4:{ type: String },
+    }
+    ],
+    Highlights: [{ type: String }],
   },
 
   {

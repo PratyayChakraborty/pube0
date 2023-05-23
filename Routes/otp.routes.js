@@ -12,73 +12,47 @@ const client = require("twilio")(
 
 // POST /otp/send
 router.post("/send", async (req, res) => {
-  const { phoneNumber, email, name } = req.body;
-  const otpCode = otpGenerator.generate(6, {
-    digits: true,
-    alphabets: true,
-    upperCase: true,
-    specialChars: true,
-  });
+  const {  email, otp } = req.body;
   const expiresAt = moment().add(5, "minutes").toDate();
 
   try {
     // Save the OTP code and expiration date to the database
-    const data = await OtpModel.find({ phoneNumber: phoneNumber });
+    const data = await OtpModel.find({ email: email });
     if (data.length==0) {
-      const otp = new OtpModel({
-        phoneNumber,
+      const otp1 = new OtpModel({
         email,
-        name,
-        otp: "12345",
+        otp,
         expiresAt,
       });
-      await otp.save();
+      await otp1.save();
       res.send({
-        otpCode,
+        message: "Email Register" 
       });
     } else {
-      const x = await OtpModel.findById({ _id: data[0]._id });
-      const pay = { otp: otpCode, expiresAt };
-      const a = await OtpModel.findByIdAndUpdate({ _id: data[0]._id }, pay);
-      console.log(a);
-      res.send(otpCode);
-    }
-
-    // Send the OTP code to the user's phone number using Twilio
-    const message = `Your verification code is: ${otpCode}`;
-    // const twilioResponse = await twilio.messages.create({ body: message, from: process.env.TWILIO_PHONE_NUMBER, to: phoneNumber });
-    // const twilioResponse = await client.messages.create({
-    //   body: `Your OTP to login is ${otp}`,
-    //   from: "+12766002036",
-    //   statusCallback: "http://postb.in/1234abcd",
-    //   to: `+91${phoneNumber}`,
-    // });
-
-    // res.json({
-    //   message: "OTP sent successfully",
-    //   messageId: twilioResponse.sid,
-    //   otp:message
-    // });
-    // res.send({
-    //   message,
-    // });
+    
+      const pay = { otp: otp, expiresAt };
+       await OtpModel.findByIdAndUpdate({ _id: data[0]._id }, pay);
+      
+       res.send({
+        message: "Email Update" 
+      });
+    }   
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 });
 
-// POST /otp/verify
 router.post("/verify", async (req, res) => {
-  const { phoneNumber, otpCode } = req.body;
-
+  const { email, otpCode } = req.body;
+  console.log({ email, otpCode });
   try {
     // Find the OTP code in the database
     const otp = await OtpModel.findOne({
-      phoneNumber,
+      email: email,
       otp: otpCode,
-      expiresAt: { $gt: new Date() },
     });
+    console.log(otp);
     if (!otp) {
       return res.status(400).json({ message: "Invalid OTP" });
     }
@@ -96,6 +70,19 @@ router.post("/verify", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
+  }
+});
+router.get("/", authMiddleware, async (req, res) => {
+  const token = req.headers.authorization;
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  try {
+    const product = await OtpModel.find({ _id: decoded.userId });
+    res.send({ data: product });
+  } catch (error) {
+    res.status(500).send({
+      error: true,
+      msg: "something went wrong",
+    });
   }
 });
 
