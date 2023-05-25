@@ -308,10 +308,11 @@ ProductRoutes.get("/alldata", async (req, res) => {
   }
 });
 
-ProductRoutes.get("allproductdata/:id", async (req, res) => {
+ProductRoutes.get("/allproductdata/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const product = await ProductModel.findById(id);
+    console.log(product)
     res.send(product);
   } catch (error) {
     res.status(404).send({ msg: "something went wrong" });

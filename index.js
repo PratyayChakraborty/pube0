@@ -16,6 +16,7 @@ const { BlogRoutes } = require("./Routes/Blog.Routes");
 const {  TotalRoutes } = require("./Routes/Total.Routes");
 const { AdminRoutes } = require("./Routes/Admin.Routes");
 const { SubscriptionRoutes } = require("./Routes/Subscription.Routes");
+const { OldPhonerouter } = require("./Routes/OldPhone.Routes");
 
 require("dotenv").config();
 
@@ -36,6 +37,7 @@ app.get("/", (req, res) => {
 
 app.use("/subscription",SubscriptionRoutes)
 app.use("/admin",AdminRoutes)
+app.use("/old",OldPhonerouter)
 app.use("/total",TotalRoutes)
 app.use("/contact",ContactRoutes)
 app.use("/otp", require("./Routes/otp.routes"));

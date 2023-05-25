@@ -20,7 +20,17 @@ const productSchema = new mongoose.Schema(
       img4:{ type: String },
     }
     ],
-    Highlights: [{ type: String }],
+    model:[
+      {display:{ type: String },
+      perMonthEmi:{ type: String },
+      Actualprice: { type: String } 
+    }],
+    storage:[
+      {phoneStorage:{ type: String },
+      perMonthEmi:{ type: String },
+      Actualprice: { type: String } 
+    }],
+    new: [{ type: String ,default:"false"}],
   },
 
   {
