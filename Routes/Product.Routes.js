@@ -341,7 +341,7 @@ ProductRoutes.post("/add", async (req, res) => {
   }
 });
 
-ProductRoutes.patch("/update/:id", authenticate, async (req, res) => {
+ProductRoutes.patch("/update/:id", async (req, res) => {
   const Id = req.params.id;
   const payload = req.body;
 
@@ -363,7 +363,7 @@ ProductRoutes.patch("/update/:id", authenticate, async (req, res) => {
   }
 });
 
-ProductRoutes.delete("/delete/:id", authenticate, async (req, res) => {
+ProductRoutes.delete("/delete/:id", async (req, res) => {
   const Id = req.params.id;
   const note = await ProductModel.findOne({ _id: Id });
   const hotelId = note.created_by;

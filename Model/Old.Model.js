@@ -4,7 +4,7 @@ const OldphoneSchema = new mongoose.Schema({
  
     
         modelName: { type: String },
-        returnNoDamange: { type: Number },
+        returnNoDamage: { type: Number },
         bodyDamage: { type: Number },
         screenDamage:{ type: Number },
         minPrice:{ type: Number },

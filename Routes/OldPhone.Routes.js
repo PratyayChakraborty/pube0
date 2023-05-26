@@ -27,7 +27,7 @@ OldPhonerouter.get("/old-phones/:id", async (req, res) => {
 
 OldPhonerouter.get("/old/:name", async (req, res) => {
     try {
-      const oldPhone = await OldphoneModel.find({oldphoneName:req.params.name});
+      const oldPhone = await OldphoneModel.find({modelName:req.params.name});
       if (!oldPhone) {
         return res.status(404).json({ message: "Old phone not found" });
       }
