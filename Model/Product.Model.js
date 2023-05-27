@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema(
     category: [{ type: String,default:"all" }],
     phoneColour:[{
       color: { type: String },
-      img1:{ type: String },
+      img1:{ type: String,required: true },
       img2:{ type: String },
       img3:{ type: String },
       img4:{ type: String },
