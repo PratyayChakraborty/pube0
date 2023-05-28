@@ -9,6 +9,8 @@ const cartSchema = new mongoose.Schema(
     storage:{ type: String, required: true },
     display:{ type: String, required: true },
     quantity: { type: Number, default: 1, min: 1 },
+    oldmobileModel:{ type: String},
+    mobileCondition:{ type: String},
     productId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "product",
