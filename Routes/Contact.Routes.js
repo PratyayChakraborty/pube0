@@ -36,6 +36,7 @@ ContactRoutes.get("/:id", async (req, res) => {
 ContactRoutes.post("/add", async (req, res) => {
   try {
     let data = req.body;
+    console.log(data)
     let data1 = new ContactModel(data);
     let saved = await data1.save();
 

@@ -19,6 +19,8 @@ const orderSchema = new mongoose.Schema(
     },
     shippingAddress: { type: String, required: true },
     totalprice: { type: Number, required: true },
+    oldmobileModel:{ type: String},
+    mobileCondition:{ type: String},
     products: [
       {
         productId: {

@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 
 const AddressSchema = new mongoose.Schema(
   {
-    name: { type: String },
-    Mobile: { type: Number },
-    pincode: { type: Number },
+    name: { type: String,required: true },
+    Mobile: { type: Number,required: true },
+    pincode: { type: Number,required: true },
     locality: { type: String },
-    address: { type: String },
-    city: { type: String },
-    state: { type: String },
+    address: { type: String,required: true },
+    city: { type: String,required: true },
+    state: { type: String,required: true },
     landmark: { type: String },
-    alternatephone: { type: Number },
+    alternatephone: { type: Number, },
     addresstype:{ type: String },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
