@@ -15,7 +15,7 @@ const { EmailModel } = require("../Model/Email.Model");
 router.post("/send", async (req, res) => {
   const { email, otp } = req.body;
   const expiresAt = moment().add(25, "minutes").toDate();
-  const domain1 = email.split('@')[1];
+  const domain1 = email.split("@")[1];
   console.log(domain1);
   const domain = await EmailModel.findOne({ email: domain1 });
   console.log(domain);
@@ -43,7 +43,7 @@ router.post("/send", async (req, res) => {
         });
       }
     } else {
-      res.send({
+      res.status(401).json({
         message: "Invalid Email Domain",
       });
     }
@@ -52,7 +52,6 @@ router.post("/send", async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
 
 router.post("/verify", async (req, res) => {
   const { email, otpCode } = req.body;
