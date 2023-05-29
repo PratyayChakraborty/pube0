@@ -17,7 +17,6 @@ const orderSchema = new mongoose.Schema(
       enum: ["Pending", "Confirmed", "Delivered"],
       default: "Pending",
     },
-    shippingAddress: { type: String, required: true },
     totalprice: { type: Number, required: true },
     oldmobileModel:{ type: String},
     mobileCondition:{ type: String},
