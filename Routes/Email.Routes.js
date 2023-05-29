@@ -3,9 +3,6 @@ const { EmailModel } = require("../Model/Email.Model");
 
 const EmailRoutes = express.Router();
 
-
-
-
 EmailRoutes.get("/", async (req, res) => {
   try {
     const product = await EmailModel.find();

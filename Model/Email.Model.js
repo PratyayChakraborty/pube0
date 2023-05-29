@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const EmailSchema = new mongoose.Schema(
   { 
-    Email: { type: String },
+    email: { type: String },
+    discount:{ type: Number },
   },
 
   {

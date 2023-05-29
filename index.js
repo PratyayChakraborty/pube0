@@ -52,6 +52,7 @@ app.use("/cart", CartRoutes);
 app.use("/address", AddressRoutes);
 app.use("/order", OrderRoutes);
 app.use("/blog",BlogRoutes)
+app.use("/email",EmailRoutes)
 
 app.listen(process.env.port, async () => {
   try {
