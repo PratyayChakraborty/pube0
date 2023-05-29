@@ -17,6 +17,7 @@ router.post("/send", async (req, res) => {
   const expiresAt = moment().add(25, "minutes").toDate();
   const domain1 = email.split("@")[1];
   const domain = await EmailModel.findOne({ email: domain1 });
+  const x=(domain.discount)
  
   try {
     if (domain) {
@@ -26,6 +27,7 @@ router.post("/send", async (req, res) => {
         const otp1 = new OtpModel({
           email,
           otp,
+          adminDiscount:x,
           expiresAt,
         });
         await otp1.save();
@@ -62,7 +64,6 @@ router.post("/verify", async (req, res) => {
       email: email,
       otp: otpCode,
     });
-    console.log(otp);
     if (!otp) {
       return res.status(400).json({ message: "Invalid OTP" });
     }
@@ -75,7 +76,6 @@ router.post("/verify", async (req, res) => {
       { email: otp.email, userId: otp._id,adminDiscount:domain.discount },
       process.env.JWT_SECRET
     );
-
     res.json({ message: "OTP verified successfully", token });
   } catch (err) {
     console.error(err);
