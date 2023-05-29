@@ -9,39 +9,50 @@ const client = require("twilio")(
   process.env.TWILIO_ACCOUNT_SID,
   process.env.TWILIO_AUTH_TOKEN
 );
+const { EmailModel } = require("../Model/Email.Model");
 
 // POST /otp/send
 router.post("/send", async (req, res) => {
-  const {  email, otp } = req.body;
-  const expiresAt = moment().add(5, "minutes").toDate();
+  const { email, otp } = req.body;
+  const expiresAt = moment().add(25, "minutes").toDate();
+  const domain1 = email.split('@')[1];
+  console.log(domain1);
+  const domain = await EmailModel.findOne({ email: domain1 });
+  console.log(domain);
 
   try {
-    // Save the OTP code and expiration date to the database
-    const data = await OtpModel.find({ email: email });
-    if (data.length==0) {
-      const otp1 = new OtpModel({
-        email,
-        otp,
-        expiresAt,
-      });
-      await otp1.save();
-      res.send({
-        message: "Email Register" 
-      });
+    if (domain) {
+      // Save the OTP code and expiration date to the database
+      const data = await OtpModel.find({ email: email });
+      if (data.length == 0) {
+        const otp1 = new OtpModel({
+          email,
+          otp,
+          expiresAt,
+        });
+        await otp1.save();
+        res.send({
+          message: "Email Register",
+        });
+      } else {
+        const pay = { otp: otp, expiresAt };
+        await OtpModel.findByIdAndUpdate({ _id: data[0]._id }, pay);
+
+        res.send({
+          message: "Email Update",
+        });
+      }
     } else {
-    
-      const pay = { otp: otp, expiresAt };
-       await OtpModel.findByIdAndUpdate({ _id: data[0]._id }, pay);
-      
-       res.send({
-        message: "Email Update" 
+      res.send({
+        message: "Invalid Email Domain",
       });
-    }   
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 router.post("/verify", async (req, res) => {
   const { email, otpCode } = req.body;

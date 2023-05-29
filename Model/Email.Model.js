@@ -12,7 +12,7 @@ const EmailSchema = new mongoose.Schema(
   }
 );
 
-const EmailModel = mongoose.model("Email", EmailSchema);
+const EmailModel = mongoose.model("Domain", EmailSchema);
 
 module.exports = {
     EmailModel
