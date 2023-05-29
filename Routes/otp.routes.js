@@ -16,10 +16,8 @@ router.post("/send", async (req, res) => {
   const { email, otp } = req.body;
   const expiresAt = moment().add(25, "minutes").toDate();
   const domain1 = email.split("@")[1];
-  console.log(domain1);
   const domain = await EmailModel.findOne({ email: domain1 });
-  console.log(domain);
-
+ 
   try {
     if (domain) {
       // Save the OTP code and expiration date to the database
@@ -55,6 +53,8 @@ router.post("/send", async (req, res) => {
 
 router.post("/verify", async (req, res) => {
   const { email, otpCode } = req.body;
+  const domain1 = email.split("@")[1];
+  const domain = await EmailModel.findOne({ email: domain1 });
   console.log({ email, otpCode });
   try {
     // Find the OTP code in the database
@@ -72,7 +72,7 @@ router.post("/verify", async (req, res) => {
 
     // Generate a JWT token for the user
     const token = jwt.sign(
-      { phoneNumber: otp.phoneNumber, userId: otp._id },
+      { email: otp.email, userId: otp._id,adminDiscount:domain.discount },
       process.env.JWT_SECRET
     );
 
@@ -87,7 +87,7 @@ router.get("/", authMiddleware, async (req, res) => {
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
   try {
     const product = await OtpModel.find({ _id: decoded.userId });
-    res.send({ data: product });
+    res.send({ data: product, email:req.body.email, adminDiscount:req.body.adminDiscount });
   } catch (error) {
     res.status(500).send({
       error: true,
