@@ -63,59 +63,14 @@ OrderRoutes.get("/vendororder", authenticate, async (req, res) => {
 });
 
 
-// OrderRoutes.get("/vendororder", authenticate, async (req, res) => {
-//   const token = req.headers.authorization;
-//   const decoded = jwt.verify(token, process.env.key);
-  
-//   try {
-//     const data = await OrderModel.find();
-//     const totaldata = [];
-//     for (let i = 0; i < data.length; i++) {
-//       const arr = [];
-//       for (let j = 0; j < data[i].products.length; j++) {
-//         if (data[i].products[j].vendorId == decoded.vendorId) {
-//           arr.push({title:data[i].products[j].title,
-//                     productId:data[i].products[j].productId,
-//                     image:data[i].products[j].image,
-//                     phone:data[i].products[i].phone,
-//                     price:data[i].products[j].title,
-//                     color:data[i].products[j].color,
-//                     size:data[i].products[j].size,
-//                     quantity:data[i].products[j].quantity,
-//                     status:data[i].products[j].status,
-//                     _id:data[i].products[j]._id,
-//                     orderId:data[i]._id,
-//                     AddressId:data[i].addressId,
-//                     shippingAddress:data[i].shippingAddress,
-//                     username:data[i].username,
-//                     userId:data[i].userId,
-//                     createdAt:data[i].createdAt});
-//         }
-//       }
-//       if (arr.length > 0) {
-//         totaldata.push(arr);
-//       }
-//     }
-//     res.send({ data: totaldata, total: totaldata.length });
-//   } catch (error) {
-//     res.status(404).send({ msg: "something went wrong" });
-//   }
-// });
-
-// OrderRoutes.get("/vendortodayorder", authenticate, async (req, res) => {
-//   //     const s = '2023-03-20T11:50:26.404+00:00';
-//   //      const [y, m, d, hh, mm, ss, ms] = s.match(/\d+/g);
-//   //      const date = new Date(Date.UTC(y, m - 1, d, hh, mm, ss, ms));
-//   //      const formatted = date.toLocaleString();
-//   // console.log(formatted);
-
-//   const product = await OrderModel.find({ createdAt: new Date() });
-//   try {
-//     res.send({ product, Total: product.length });
-//   } catch (error) {
-//     res.status(404).send({ msg: "something went wrong" });
-//   }
-// });
+OrderRoutes.get("/orders", async (req, res) => {
+  try {
+    const orders = await OrderModel.find();
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving orders" });
+  }
+});
 
 OrderRoutes.get("/:id", async (req, res) => {
   const id = req.params.id;
@@ -202,6 +157,35 @@ OrderRoutes.delete("/delete/:id", authenticate, async (req, res) => {
   } catch (err) {
     console.log(err);
     res.send({ msg: "Something went wrong" });
+  }
+});
+// Update an existing order
+OrderRoutes.put("/orders/:id", async (req, res) => {
+  try {
+    const order = await OrderModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    res.json(order);
+  } catch (error) {
+    res.status(500).json({ message: "Error updating order" });
+  }
+});
+
+// Delete an order
+OrderRoutes.delete("/orders/:id", async (req, res) => {
+  try {
+    const order = await OrderModel.findByIdAndDelete(req.params.id);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    res.json({ message: "Order deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting order" });
   }
 });
 
