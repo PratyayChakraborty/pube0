@@ -64,18 +64,17 @@ OldPhonerouter.post("/add", async (req, res) => {
 // PUT/UPDATE an old phone by ID
 OldPhonerouter.put("/old-phones/:id", async (req, res) => {
   try {
-    const { oldphoneName, model } = req.body;
-    const updatedOldPhone = await OldphoneModel.findByIdAndUpdate(
+    const order = await OldphoneModel.findByIdAndUpdate(
       req.params.id,
-      { oldphoneName, model },
+      req.body,
       { new: true }
     );
-    if (!updatedOldPhone) {
-      return res.status(404).json({ message: "Old phone not found" });
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
     }
-    res.json(updatedOldPhone);
+    res.json(order);
   } catch (error) {
-    res.status(500).json({ message: "Error updating old phone" });
+    res.status(500).json({ message: "Error updating order" });
   }
 });
 
