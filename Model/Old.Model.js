@@ -9,7 +9,10 @@ const OldphoneSchema = new mongoose.Schema({
         screenDamage:{ type: Number },
         minPrice:{ type: Number },
         maxPrice:{ type: Number },
-        des:[{ type: String }]
+        des:[{ type: String }],
+        AppleCareMontly: { type: Number },
+        ApplecareMrp:{ type: Number },
+        ApplecareDes:[{ type: String }],
       
     
  

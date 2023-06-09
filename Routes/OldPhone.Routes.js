@@ -3,7 +3,6 @@ const express = require("express");
 const OldPhonerouter = express.Router();
 const { OldphoneModel } = require("../Model/Old.Model");
 
-
 // GET all old phones
 OldPhonerouter.get("/", async (req, res) => {
   try {
@@ -28,38 +27,54 @@ OldPhonerouter.get("/old-phones/:id", async (req, res) => {
 });
 
 OldPhonerouter.get("/old/:name", async (req, res) => {
-    try {
-      const oldPhone = await OldphoneModel.find({modelName:req.params.name});
-      if (!oldPhone) {
-        return res.status(404).json({ message: "Old phone not found" });
-      }
-      res.json(oldPhone);
-    } catch (error) {
-      res.status(500).json({ message: "Error retrieving old phone" });
+  try {
+    const oldPhone = await OldphoneModel.find({ modelName: req.params.name });
+    if (!oldPhone) {
+      return res.status(404).json({ message: "Old phone not found" });
     }
-  });
+    res.json(oldPhone);
+  } catch (error) {
+    res.status(500).json({ message: "Error retrieving old phone" });
+  }
+});
 
 // POST a new old phone
 OldPhonerouter.post("/add", async (req, res) => {
-    try {
-        const { modelName, returnNoDamage, bodyDamage, screenDamage, minPrice, maxPrice,des } = req.body;
-    
-        const oldPhone = new OldphoneModel({
-          modelName,
-          returnNoDamage,
-          bodyDamage,
-          screenDamage,
-          minPrice,
-          maxPrice,
-          des
-        });
-    console.log(oldPhone)
-        const savedOldPhone = await oldPhone.save();
-    
-        res.status(201).json(savedOldPhone);
-      } catch (error) {
-        res.status(500).json({ error: 'An error occurred while creating the old phone entry.' });
-      }
+  try {
+    const {
+      modelName,
+      returnNoDamage,
+      bodyDamage,
+      screenDamage,
+      minPrice,
+      maxPrice,
+      des,
+      AppleCareMontly,
+      ApplecareMrp,
+      ApplecareDes
+    } = req.body;
+
+    const oldPhone = new OldphoneModel({
+      modelName,
+      returnNoDamage,
+      bodyDamage,
+      screenDamage,
+      ApplecareDes,
+      minPrice,
+      maxPrice,
+      des,
+      AppleCareMontly,
+      ApplecareMrp
+    });
+    console.log(oldPhone);
+    const savedOldPhone = await oldPhone.save();
+
+    res.status(201).json(savedOldPhone);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while creating the old phone entry." });
+  }
 });
 
 // PUT/UPDATE an old phone by ID
