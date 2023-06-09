@@ -31,6 +31,9 @@ const productSchema = new mongoose.Schema(
       Actualprice: { type: String } 
     }],
     new: [{ type: String ,default:"false"}],
+    AppleCareMontly: { type: Number },
+    ApplecareMrp:{ type: Number },
+    ApplecareDes:[{ type: String }],
   },
 
   {

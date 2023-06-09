@@ -49,9 +49,7 @@ OldPhonerouter.post("/add", async (req, res) => {
       minPrice,
       maxPrice,
       des,
-      AppleCareMontly,
-      ApplecareMrp,
-      ApplecareDes
+      
     } = req.body;
 
     const oldPhone = new OldphoneModel({
@@ -63,8 +61,6 @@ OldPhonerouter.post("/add", async (req, res) => {
       minPrice,
       maxPrice,
       des,
-      AppleCareMontly,
-      ApplecareMrp
     });
     console.log(oldPhone);
     const savedOldPhone = await oldPhone.save();
