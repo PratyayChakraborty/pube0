@@ -42,7 +42,7 @@ OldPhonerouter.get("/old/:name", async (req, res) => {
 // POST a new old phone
 OldPhonerouter.post("/add", async (req, res) => {
     try {
-        const { modelName, returnNoDamage, bodyDamage, screenDamage, minPrice, maxPrice } = req.body;
+        const { modelName, returnNoDamage, bodyDamage, screenDamage, minPrice, maxPrice,des } = req.body;
     
         const oldPhone = new OldphoneModel({
           modelName,
@@ -51,8 +51,9 @@ OldPhonerouter.post("/add", async (req, res) => {
           screenDamage,
           minPrice,
           maxPrice,
+          des
         });
-    
+    console.log(oldPhone)
         const savedOldPhone = await oldPhone.save();
     
         res.status(201).json(savedOldPhone);

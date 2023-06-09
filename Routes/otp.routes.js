@@ -23,6 +23,7 @@ router.post("/send", async (req, res) => {
     if (domain) {
       // Save the OTP code and expiration date to the database
       const data = await OtpModel.find({ email: email });
+      console.log(data)
       if (data.length == 0) {
         const otp1 = new OtpModel({
           email,
@@ -37,7 +38,6 @@ router.post("/send", async (req, res) => {
       } else {
         const pay = { otp: otp, expiresAt };
         await OtpModel.findByIdAndUpdate({ _id: data[0]._id }, pay);
-
         res.send({
           message: "Email Update",
         });
