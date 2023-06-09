@@ -11,6 +11,9 @@ const cartSchema = new mongoose.Schema(
     quantity: { type: Number, default: 1, min: 1 },
     oldmobileModel:{ type: String},
     mobileCondition:{ type: String},
+    appleCare:{type:String},
+    appleCareMrp:{ type: Number, default: 0, },
+    appleCareMontly:{ type: Number, default: 0, },
     productId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "product",
