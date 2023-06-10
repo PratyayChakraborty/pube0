@@ -34,6 +34,7 @@ const productSchema = new mongoose.Schema(
     AppleCareMontly: { type: Number },
     ApplecareMrp:{ type: Number },
     ApplecareDes:[{ type: String }],
+    name:[{ type: String }],
   },
 
   {
