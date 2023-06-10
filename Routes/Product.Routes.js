@@ -303,7 +303,7 @@ ProductRoutes.get("/alldata", async (req, res) => {
       res.send({ data: products, total: products.length });
     }else if (req.query.name) {
       let products = await ProductModel.find({
-        name: { $regex: req.query.name},
+        name: { $regex: req.query.name, $options: "i"},
       });
       res.send({ data: products, total: products.length });
     }
