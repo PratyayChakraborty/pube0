@@ -307,6 +307,12 @@ ProductRoutes.get("/alldata", async (req, res) => {
       });
       res.send({ data: products, total: products.length });
     }
+    else if ((req.query.q)) {
+      let products = await ProductModel.find({
+        title: { $regex: req.query.q, $options: "i" },
+      });
+      res.send({ data: products, total: products.length });
+    }
     else{
       let products = await ProductModel.find();
       res.send({ data: products, total: products.length });
