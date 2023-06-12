@@ -30,7 +30,7 @@ const productSchema = new mongoose.Schema(
       perMonthEmi:{ type: String },
       Actualprice: { type: String } 
     }],
-    new: [{ type: String ,default:"false"}],
+    new: { type: String ,default:"false"},
     AppleCareMontly: { type: Number },
     ApplecareMrp:{ type: Number },
     ApplecareDes:[{ type: String }],
