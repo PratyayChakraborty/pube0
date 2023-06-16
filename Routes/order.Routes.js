@@ -118,12 +118,13 @@ OrderRoutes.patch("/update/:id", authMiddleware, async (req, res) => {
 OrderRoutes.patch("/changestatus/:id", async (req, res) => {
   try {
     
-      await OrderModel.findByIdAndUpdate({ _id: Id }, payload);
+      const data=await OrderModel.findByIdAndUpdate({ _id: req.params.id}, req.body);
+  
       res.send({ msg: "updated Sucessfully" });
     
   } catch (err) {
     console.log(err);
-    res.send({ err: "Something went wrong" });
+    res.send(err);
   }
 });
 
