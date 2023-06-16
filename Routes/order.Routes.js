@@ -115,24 +115,12 @@ OrderRoutes.patch("/update/:id", authMiddleware, async (req, res) => {
   }
 });
 
-OrderRoutes.patch("/changestatus/:id", authenticate, async (req, res) => {
-  const user = req.body.vendorId;
-  // console.log(user)
-  const Id = req.params.id;
-  const payload = req.body;
-
-  const data = await OrderModel.findOne({ _id: Id });
-  const data1 = data.vendorId;
-  const a = JSON.stringify(data1);
-  const b = JSON.stringify(user);
-
+OrderRoutes.patch("/changestatus/:id", async (req, res) => {
   try {
-    if (a !== b) {
-      res.send({ msg: "You are not authorized" });
-    } else {
+    
       await OrderModel.findByIdAndUpdate({ _id: Id }, payload);
       res.send({ msg: "updated Sucessfully" });
-    }
+    
   } catch (err) {
     console.log(err);
     res.send({ err: "Something went wrong" });
