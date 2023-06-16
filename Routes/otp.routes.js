@@ -114,7 +114,7 @@ router.get("/allusers", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const product = await OtpModel.find({_id:req.params.id});
+    const product = await OtpModel.findById(req.params.id);
     res.send({ data: product });
   } catch (error) {
     res.status(500).send({
