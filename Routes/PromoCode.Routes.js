@@ -35,6 +35,23 @@ router.post("/add", async (req, res) => {
   }
 });
 
+
+router.get("/:id", async (req, res) => {
+  const pageId = req.params.id;
+
+  try {
+    const page = await PromoModel.findById(pageId);
+    if (!page) {
+      return res.status(404).json({ message: "Page not found" });
+    }
+
+    res.status(200).json(page);
+  } catch (err) {
+    console.error("Error retrieving page:", err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 // PUT update a promo code
 router.put("/:id", getPromoCode, async (req, res) => {
   res.promoCode.promoCode = req.body.promoCode;
