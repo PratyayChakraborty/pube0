@@ -16,6 +16,25 @@ EmailRoutes.get("/", async (req, res) => {
     });
   }
 });
+EmailRoutes.get("/:id", async (req, res) => {
+  try {
+    const email = await EmailModel.findById(req.params.id);
+    if (!email) {
+      return res.status(404).send({
+        error: true,
+        msg: "Email not found",
+      });
+    }
+    res.send({ data: email });
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).send({
+      error: true,
+      msg: "Something went wrong",
+    });
+  }
+});
+
 
 
 

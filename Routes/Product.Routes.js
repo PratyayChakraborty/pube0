@@ -355,7 +355,7 @@ ProductRoutes.post("/add", async (req, res) => {
 
     res.send({ msg: "Data Added" });
   } catch (err) {
-    res.send({ msg: "could not add Data" });
+    res.send(err);
   }
 });
 
