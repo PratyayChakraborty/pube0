@@ -96,11 +96,11 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/", authMiddleware, async (req, res) => {
-  const token = req.headers.authorization;
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+router.get("/allusers", async (req, res) => {
+ 
+
   try {
-    const product = await OtpModel.find({ _id: decoded.userId });
+    const product = await OtpModel.find();
     res.send({ data: product });
   } catch (error) {
     res.status(500).send({

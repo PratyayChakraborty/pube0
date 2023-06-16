@@ -51,6 +51,12 @@ OldPhonerouter.post("/add", async (req, res) => {
       des,
     } = req.body;
 
+    // Check if the model name already exists
+    const existingOldPhone = await OldphoneModel.findOne({ modelName });
+    if (existingOldPhone) {
+      return res.status(400).json({ error: "Model name already exists" });
+    }
+
     const oldPhone = new OldphoneModel({
       modelName,
       returnNoDamage,
