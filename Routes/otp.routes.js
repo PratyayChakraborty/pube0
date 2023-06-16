@@ -17,18 +17,18 @@ router.post("/send", async (req, res) => {
   const expiresAt = moment().add(25, "minutes").toDate();
   const domain1 = email.split("@")[1];
   const domain = await EmailModel.findOne({ email: domain1 });
-  const x=(domain.discount)
- 
+  const x = domain.discount;
+
   try {
     if (domain) {
       // Save the OTP code and expiration date to the database
       const data = await OtpModel.find({ email: email });
-      console.log(data)
+      console.log(data);
       if (data.length == 0) {
         const otp1 = new OtpModel({
           email,
           otp,
-          adminDiscount:x,
+          adminDiscount: x,
           expiresAt,
         });
         await otp1.save();
@@ -73,7 +73,7 @@ router.post("/verify", async (req, res) => {
 
     // Generate a JWT token for the user
     const token = jwt.sign(
-      { email: otp.email, userId: otp._id,adminDiscount:domain.discount },
+      { email: otp.email, userId: otp._id, adminDiscount: domain.discount },
       process.env.JWT_SECRET
     );
     res.json({ message: "OTP verified successfully", token });
@@ -87,7 +87,11 @@ router.get("/", authMiddleware, async (req, res) => {
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
   try {
     const product = await OtpModel.find({ _id: decoded.userId });
-    res.send({ data: product, email:req.body.email, adminDiscount:req.body.adminDiscount });
+    res.send({
+      data: product,
+      email: req.body.email,
+      adminDiscount: req.body.adminDiscount,
+    });
   } catch (error) {
     res.status(500).send({
       error: true,
@@ -97,8 +101,6 @@ router.get("/", authMiddleware, async (req, res) => {
 });
 
 router.get("/allusers", async (req, res) => {
- 
-
   try {
     const product = await OtpModel.find();
     res.send({ data: product });
@@ -109,5 +111,57 @@ router.get("/allusers", async (req, res) => {
     });
   }
 });
+
+router.get("/:id", async (req, res) => {
+  try {
+    const product = await OtpModel.find({_id:req.params.id});
+    res.send({ data: product });
+  } catch (error) {
+    res.status(500).send({
+      error: true,
+      msg: "something went wrong",
+    });
+  }
+});
+router.put("/otp/:id", async (req, res) => {
+  const { id } = req.params;
+  const { email, otp, adminDiscount } = req.body;
+
+  try {
+    const updatedOtp = await OtpModel.findByIdAndUpdate(
+      id,
+      { email, otp, adminDiscount },
+      { new: true }
+    );
+
+    if (!updatedOtp) {
+      return res.status(404).json({ message: "OTP not found" });
+    }
+
+    res.status(200).json(updatedOtp);
+  } catch (error) {
+    console.error("Error updating OTP:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
+router.delete("/otp/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const deletedOtp = await OtpModel.findByIdAndRemove(id);
+
+    if (!deletedOtp) {
+      return res.status(404).json({ message: "OTP not found" });
+    }
+
+    res.status(200).json({ message: "OTP deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting OTP:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 
 module.exports = router;
