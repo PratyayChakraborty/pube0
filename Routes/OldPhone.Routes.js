@@ -49,7 +49,6 @@ OldPhonerouter.post("/add", async (req, res) => {
       minPrice,
       maxPrice,
       des,
-      
     } = req.body;
 
     const oldPhone = new OldphoneModel({
@@ -57,21 +56,21 @@ OldPhonerouter.post("/add", async (req, res) => {
       returnNoDamage,
       bodyDamage,
       screenDamage,
-      ApplecareDes,
       minPrice,
       maxPrice,
       des,
     });
+
     console.log(oldPhone);
+
     const savedOldPhone = await oldPhone.save();
 
     res.status(201).json(savedOldPhone);
   } catch (error) {
-    res
-      .status(500)
-      .json({ error: "An error occurred while creating the old phone entry." });
+    res.status(500).json(error);
   }
 });
+
 
 // PUT/UPDATE an old phone by ID
 OldPhonerouter.put("/old-phones/:id", async (req, res) => {

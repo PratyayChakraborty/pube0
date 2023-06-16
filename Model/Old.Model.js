@@ -11,9 +11,6 @@ const OldphoneSchema = new mongoose.Schema({
         maxPrice:{ type: Number },
         des:[{ type: String }],
        
-      
-    
- 
 });
 
 const OldphoneModel = mongoose.model("Old_Phone", OldphoneSchema);
