@@ -353,7 +353,7 @@ ProductRoutes.post("/add", async (req, res) => {
     let data1 = new ProductModel(data);
     let saved = await data1.save();
 
-    res.send({ msg: "Data Added" });
+    res.send({ msg: "Data Added",data:saved});
   } catch (err) {
     res.send(err);
   }
