@@ -29,7 +29,7 @@ const productSchema = new mongoose.Schema(
     }],
     storage:[
       {phoneStorage:{ type: String },
-      perMonthEmi:{ type: String },
+      perMonthEmi:{ type: String,default:0 },
       Actualprice: { type: String } 
     }],
     new: { type: String ,default:"false"},
