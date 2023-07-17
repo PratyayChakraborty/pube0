@@ -18,6 +18,8 @@ const productSchema = new mongoose.Schema(
       img2:{ type: String },
       img3:{ type: String },
       img4:{ type: String },
+      price:{ type: Number },
+      sellingPrice:{ type: Number },
     }
     ],
     model:[
