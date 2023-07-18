@@ -25,7 +25,7 @@ const productSchema = new mongoose.Schema(
     model:[
       {display:{ type: String },
       perMonthEmi:{ type: String },
-      ActualPrice: { type: String } 
+      ModelActualPrice: { type: String } 
     }],
     storage:[
       {phoneStorage:{ type: String },
