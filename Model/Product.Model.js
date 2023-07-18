@@ -18,14 +18,14 @@ const productSchema = new mongoose.Schema(
       img2:{ type: String },
       img3:{ type: String },
       img4:{ type: String },
-      ActualPrice:{ type: Number },
+      ProductPrice:{ type: Number },
       sellingPrice:{ type: Number },
     }
     ],
     model:[
       {display:{ type: String },
       perMonthEmi:{ type: String },
-      ProductPrice: { type: String } 
+      ActualPrice: { type: String } 
     }],
     storage:[
       {phoneStorage:{ type: String },
