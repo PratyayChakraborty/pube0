@@ -360,26 +360,22 @@ ProductRoutes.post("/add", async (req, res) => {
 });
 
 ProductRoutes.patch("/update/:id", async (req, res) => {
-  const Id = req.params.id;
-  const payload = req.body;
+  const { id } = req.params;
+  const updates = req.body;
 
-  const hotel = await ProductModel.findOne({ _id: Id });
-
-  const hotelId = hotel.created_by;
-  console.log(hotelId);
-  const vendorId_making_req = req.body.created_by;
   try {
-    if (vendorId_making_req !== hotelId) {
-      res.send({ msg: "You are not authorized" });
-    } else {
-      await ProductModel.findByIdAndUpdate({ _id: Id }, payload);
-      res.send({ msg: "updated Sucessfully" });
-    }
-  } catch (err) {
-    console.log(err);
-    res.send({ err: "Something went wrong" });
+    const updatedProduct = await ProductModel.findByIdAndUpdate(
+      id,
+      { $set: updates },
+      { new: true }
+    );
+
+    res.json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update the product" });
   }
 });
+
 
 ProductRoutes.delete("/delete/:id", async (req, res) => {
   const Id = req.params.id;
