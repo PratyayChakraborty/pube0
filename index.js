@@ -19,6 +19,7 @@ const { SubscriptionRoutes } = require("./Routes/Subscription.Routes");
 const { OldPhonerouter } = require("./Routes/OldPhone.Routes");
 const promoRoutes = require('./Routes/PromoCode.Routes');
 const { PolicyRouter } = require("./Routes/Policy.Routes");
+const { ReturnPolicyRouter } = require("./Routes/Returnpolicy.Routes");
 
 require("dotenv").config();
 
@@ -51,6 +52,7 @@ app.use("/order", OrderRoutes);
 app.use("/blog",BlogRoutes)
 app.use("/email",EmailRoutes)
 app.use("/policy",PolicyRouter)
+app.use("/returnpolicy",ReturnPolicyRouter)
 
 app.listen(process.env.port, async () => {
   try {
