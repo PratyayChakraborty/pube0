@@ -32,7 +32,7 @@ beforePolicyRouter.put("/:id", async (req, res) => {
 // Retrieve all policies
 beforePolicyRouter.get("/", async (req, res) => {
   try {
-    const policies = await BeforeStartPolicyModel.find();
+    const policies = await BeforeStartBeforeStartPolicyModel.find();
     res.status(200).json(policies);
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve the policies." });
@@ -43,7 +43,7 @@ beforePolicyRouter.get("/", async (req, res) => {
 beforePolicyRouter.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const policy = await BeforeStartPolicyModel.findById(id);
+    const policy = await BeforeStartBeforeStartPolicyModel.findById(id);
     if (policy) {
       res.status(200).json(policy);
     } else {
@@ -58,7 +58,7 @@ beforePolicyRouter.get("/:id", async (req, res) => {
 beforePolicyRouter.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    await BeforeStartPolicyModel.findByIdAndDelete(id);
+    await BeforeStartBeforeStartPolicyModel.findByIdAndDelete(id);
     res.status(200).json({ message: "Policy deleted successfully." });
   } catch (error) {
     res.status(500).json({ error: "Failed to delete the policy." });
