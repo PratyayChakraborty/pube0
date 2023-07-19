@@ -359,20 +359,24 @@ ProductRoutes.post("/add", async (req, res) => {
   }
 });
 
-ProductRoutes.patch("/update/:id", async (req, res) => {
+ProductRoutes.put("/update/:id", async (req, res) => {
   const { id } = req.params;
-  const updates = req.body;
+  const updateData = req.body;
 
   try {
     const updatedProduct = await ProductModel.findByIdAndUpdate(
       id,
-      { $set: updates },
+      updateData,
       { new: true }
     );
 
-    res.json(updatedProduct);
+    if (updatedProduct) {
+      res.status(200).json(updatedProduct);
+    } else {
+      res.status(404).json({ error: "Product not found" });
+    }
   } catch (error) {
-    res.status(500).json({ error: "Failed to update the product" });
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
