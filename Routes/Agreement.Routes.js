@@ -18,7 +18,7 @@ AgreementPolicyRouter.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { description } = req.body;
-    const updatedPolicy = await PolicyModel.findByIdAndUpdate(
+    const updatedPolicy = await AgreementModel.findByIdAndUpdate(
       id,
       { description },
       { new: true }
@@ -32,7 +32,7 @@ AgreementPolicyRouter.put("/:id", async (req, res) => {
 // Retrieve all policies
 AgreementPolicyRouter.get("/", async (req, res) => {
   try {
-    const policies = await PolicyModel.find();
+    const policies = await AgreementModel.find();
     res.status(200).json(policies);
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve the policies." });
@@ -43,7 +43,7 @@ AgreementPolicyRouter.get("/", async (req, res) => {
 AgreementPolicyRouter.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const policy = await PolicyModel.findById(id);
+    const policy = await AgreementModel.findById(id);
     if (policy) {
       res.status(200).json(policy);
     } else {
@@ -58,7 +58,7 @@ AgreementPolicyRouter.get("/:id", async (req, res) => {
 AgreementPolicyRouter.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    await PolicyModel.findByIdAndDelete(id);
+    await AgreementModel.findByIdAndDelete(id);
     res.status(200).json({ message: "Policy deleted successfully." });
   } catch (error) {
     res.status(500).json({ error: "Failed to delete the policy." });
