@@ -1,12 +1,12 @@
 const express = require("express");
 const beforePolicyRouter = express.Router();
-const beforePolicyRouter = require("../Model/BeforeStartPolicy.Model");
+const BeforeStartBeforeStartPolicyModel = require("../Model/BeforeStartPolicy.Model");
 
 // Create a new policy
 beforePolicyRouter.post("/", async (req, res) => {
   try {
     const { description } = req.body;
-    const policy = await beforePolicyRouter.create({ description });
+    const policy = await BeforeStartBeforeStartPolicyModel.create({ description });
     res.status(201).json(policy);
   } catch (error) {
     res.status(500).json({ error: "Failed to create the policy." });
@@ -18,7 +18,7 @@ beforePolicyRouter.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const { description } = req.body;
-    const updatedPolicy = await PolicyModel.findByIdAndUpdate(
+    const updatedPolicy = await BeforeStartBeforeStartPolicyModel.findByIdAndUpdate(
       id,
       { description },
       { new: true }
@@ -32,7 +32,7 @@ beforePolicyRouter.put("/:id", async (req, res) => {
 // Retrieve all policies
 beforePolicyRouter.get("/", async (req, res) => {
   try {
-    const policies = await PolicyModel.find();
+    const policies = await BeforeStartPolicyModel.find();
     res.status(200).json(policies);
   } catch (error) {
     res.status(500).json({ error: "Failed to retrieve the policies." });
@@ -43,7 +43,7 @@ beforePolicyRouter.get("/", async (req, res) => {
 beforePolicyRouter.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const policy = await PolicyModel.findById(id);
+    const policy = await BeforeStartPolicyModel.findById(id);
     if (policy) {
       res.status(200).json(policy);
     } else {
@@ -58,7 +58,7 @@ beforePolicyRouter.get("/:id", async (req, res) => {
 beforePolicyRouter.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    await PolicyModel.findByIdAndDelete(id);
+    await BeforeStartPolicyModel.findByIdAndDelete(id);
     res.status(200).json({ message: "Policy deleted successfully." });
   } catch (error) {
     res.status(500).json({ error: "Failed to delete the policy." });
