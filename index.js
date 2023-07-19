@@ -20,6 +20,8 @@ const { OldPhonerouter } = require("./Routes/OldPhone.Routes");
 const promoRoutes = require('./Routes/PromoCode.Routes');
 const { PolicyRouter } = require("./Routes/Policy.Routes");
 const { ReturnPolicyRouter } = require("./Routes/Returnpolicy.Routes");
+const { AgreementPolicyRouter } = require("./Routes/Agreement.Routes");
+const { beforePolicyRouter } = require("./Routes/BeforeStartPolicyModel.Routes");
 
 require("dotenv").config();
 
@@ -53,7 +55,8 @@ app.use("/blog",BlogRoutes)
 app.use("/email",EmailRoutes)
 app.use("/policy",PolicyRouter)
 app.use("/returnpolicy",ReturnPolicyRouter)
-
+app.use("/agreemet",AgreementPolicyRouter)
+app.use("/beforePolicy",beforePolicyRouter)
 app.listen(process.env.port, async () => {
   try {
     await connection;
