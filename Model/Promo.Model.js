@@ -14,22 +14,11 @@ const PromoSchema = new mongoose.Schema(
 );
 
 // Middleware to update status when the order date is reached
-const updateStatus = function () {
+PromoSchema.pre("save", function (next) {
   const currentDate = new Date();
   if (this.orderDate <= currentDate) {
     this.status = "false";
   }
-};
-
-// Pre-save middleware
-PromoSchema.pre("save", function (next) {
-  updateStatus.call(this);
-  next();
-});
-
-// Pre-update middleware
-PromoSchema.pre("findOneAndUpdate", function (next) {
-  updateStatus.call(this._update.$set);
   next();
 });
 
