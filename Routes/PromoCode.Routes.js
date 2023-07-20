@@ -3,23 +3,20 @@ const router = express.Router();
 const { PromoModel } = require("../Model/Promo.Model");
 
 // GET all promo codes
-router.get('/promos', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    // Get all promos from the database
-    const promos = await PromoModel.find({});
-
     // Get the current date
     const currentDate = new Date();
+    const currentDateString = currentDate.toISOString().slice(0, 10); // Get the date in "yyyy-mm-dd" format
 
-    // Loop through each promo and update status if required
-    for (const promo of promos) {
-      if (promo.orderDate <= currentDate) {
-        // If the orderDate is less than or equal to the current date,
-        // update the status to "false"
-        await PromoModel.findByIdAndUpdate(promo._id, { $set: { status: "false" } });
-        promo.status = "false"; // Update the status in the current data to reflect changes in the response
-      }
-    }
+    // Update promos with matching orderDate to status "false"
+    await PromoModel.updateMany(
+      { orderDate: { $lte: currentDate } }, // Find promos with orderDate less than or equal to the current date
+      { $set: { status: "false" } } // Update the status to "false"
+    );
+
+    // Get all promos from the database
+    const promos = await PromoModel.find({});
 
     // Send the updated promos in the response
     res.json(promos);
@@ -28,16 +25,6 @@ router.get('/promos', async (req, res) => {
     res.status(500).json({ error: 'Server Error' });
   }
 });
-
-// Add other routes and middleware as needed
-
-
-
-
-
-
-
-
 // GET a single promo code by ID
 router.get("/promocodeoffer/:promoCode1", async (req, res) => {
   try {
@@ -55,7 +42,7 @@ router.post("/add", async (req, res) => {
     let data1 = new PromoModel(payload);
     console.log(data1);
     let saved = await data1.save();
-    res.status(200).json({ msg: "Your Data is Added" });
+    res.status(200).json({ msg: "Your Data is Added",data:saved });
   } catch (err) {
     res.status(500).json({ message: "Data not Added" });
   }
