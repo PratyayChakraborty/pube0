@@ -3,14 +3,40 @@ const router = express.Router();
 const { PromoModel } = require("../Model/Promo.Model");
 
 // GET all promo codes
-router.get("/", async (req, res) => {
+router.get('/promos', async (req, res) => {
   try {
-    const promoCodes = await PromoModel.find();
-    res.json(promoCodes);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    // Get all promos from the database
+    const promos = await PromoModel.find({});
+
+    // Get the current date
+    const currentDate = new Date();
+
+    // Loop through each promo and update status if required
+    for (const promo of promos) {
+      if (promo.orderDate <= currentDate) {
+        // If the orderDate is less than or equal to the current date,
+        // update the status to "false"
+        await PromoModel.findByIdAndUpdate(promo._id, { $set: { status: "false" } });
+        promo.status = "false"; // Update the status in the current data to reflect changes in the response
+      }
+    }
+
+    // Send the updated promos in the response
+    res.json(promos);
+  } catch (err) {
+    // Handle errors
+    res.status(500).json({ error: 'Server Error' });
   }
 });
+
+// Add other routes and middleware as needed
+
+
+
+
+
+
+
 
 // GET a single promo code by ID
 router.get("/promocodeoffer/:promoCode1", async (req, res) => {
