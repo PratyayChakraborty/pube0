@@ -13,6 +13,14 @@ const PromoSchema = new mongoose.Schema(
   }
 );
 
+PromoSchema.pre("save", function (next) {
+  const currentDate = new Date();
+  if (this.orderDate <= currentDate) {
+    this.status = "false";
+  }
+  next();
+});
+
 const PromoModel = mongoose.model("Promo", PromoSchema);
 
 module.exports = {
