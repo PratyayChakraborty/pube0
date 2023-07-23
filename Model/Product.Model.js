@@ -20,6 +20,7 @@ const productSchema = new mongoose.Schema(
       img4:{ type: String },
       ProductPrice:{ type: Number },
       sellingPrice:{ type: Number },
+      quantity:{ type: Number,default:1 },
     }
     ],
     model:[
