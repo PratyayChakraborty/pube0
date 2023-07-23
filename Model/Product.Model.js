@@ -15,9 +15,9 @@ const productSchema = new mongoose.Schema(
     phoneColour:[{
       color: { type: String },
       img1:{ type: String,required: true },
-      img2:{ type: String },
-      img3:{ type: String },
-      img4:{ type: String },
+      img2:{ type: String,required: true  },
+      img3:{ type: String ,required: true },
+      img4:{ type: String,required: true  },
       ProductPrice:{ type: Number },
       sellingPrice:{ type: Number },
       quantity:{ type: Number,default:1 },
