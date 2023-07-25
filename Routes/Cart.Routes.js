@@ -91,8 +91,8 @@ CartRoutes.patch("/update/:id", authMiddleware, async (req, res) => {
     if (d !== e) {
       res.send({ msg: "You are not authorized" });
     } else {
-      await CartModel.findByIdAndUpdate({ _id: Id }, payload);
-      res.send({ msg: "updated Sucessfully" });
+     const data= await CartModel.findByIdAndUpdate({ _id: Id }, payload);
+      res.send({ msg: "updated Sucessfully",data:data });
     }
   } catch (err) {
     console.log(err);
