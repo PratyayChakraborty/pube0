@@ -35,6 +35,13 @@ const orderSchema = new mongoose.Schema(
         storage: { type: String, required: true },
         quantity: { type: Number, required: true },
         colour: { type: String, required: true },
+        colourID:{
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "colorId",
+          required: true,
+        },
+        oldmobilePrice:{ type: Number, required: true },
+        actualPrice:{ type: Number, required: true },
         status: {
           type: String,
           enum: ["Pending", "Confirmed", "Delivered"],
