@@ -86,9 +86,9 @@ OrderRoutes.post("/add", authMiddleware, async (req, res) => {
   let data = req.body;
   try {
     let data1 = new OrderModel(data);
-    let x=await data1.save();
+    await data1.save();
 
-    res.send({ msg: "Data Added",data:x });
+    res.send({ msg: "Data Added",data:data1 });
   } catch (err) {
     res.send(err);
   }
