@@ -86,9 +86,9 @@ OrderRoutes.post("/add", authMiddleware, async (req, res) => {
   let data = req.body;
   try {
     let data1 = new OrderModel(data);
-    await data1.save();
+    let x=await data1.save();
 
-    res.send({ msg: "Data Added" });
+    res.send({ msg: "Data Added",data:x });
   } catch (err) {
     res.send(err);
   }
@@ -112,6 +112,19 @@ OrderRoutes.patch("/update/:id", authMiddleware, async (req, res) => {
   } catch (err) {
     console.log(err);
     res.send({ err: "Something went wrong" });
+  }
+});
+
+OrderRoutes.patch("/cancelorder/:id",authMiddleware, async (req, res) => {
+  try {
+    
+      const data=await OrderModel.findByIdAndUpdate({ _id: req.params.id}, req.body);
+  
+      res.send({ msg: "updated Sucessfully" });
+    
+  } catch (err) {
+    console.log(err);
+    res.send(err);
   }
 });
 
