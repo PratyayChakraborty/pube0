@@ -3,23 +3,23 @@ const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema(
   {
     username: { type: String, required: true },
-    Mobile: { type: Number,required: true },
-    pincode: { type: Number,required: true },
+    Mobile: { type: Number, required: true },
+    pincode: { type: Number, required: true },
     locality: { type: String },
-    address: { type: String,required: true },
-    city: { type: String,required: true },
-    state: { type: String,required: true },
+    address: { type: String, required: true },
+    city: { type: String, required: true },
+    state: { type: String, required: true },
     landmark: { type: String },
-    alternatephone: { type: Number,required: true },
-    addresstype:{ type: String },
+    alternatephone: { type: Number, required: true },
+    addresstype: { type: String },
     orderStatus: {
       type: String,
       enum: ["Pending", "Confirmed", "Delivered"],
       default: "Pending",
     },
     totalprice: { type: Number, required: true },
-    oldmobileModel:{ type: String},
-    mobileCondition:{ type: String},
+    oldmobileModel: { type: String },
+    mobileCondition: { type: String },
     products: [
       {
         productId: {
@@ -35,13 +35,13 @@ const orderSchema = new mongoose.Schema(
         storage: { type: String, required: true },
         quantity: { type: Number, required: true },
         colour: { type: String, required: true },
-        colourID:{
+        colourID: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "colorId",
           required: true,
         },
-        oldmobilePrice:{ type: Number, required: true },
-        actualPrice:{ type: Number, required: true },
+        oldmobilePrice: { type: Number },
+        actualPrice: { type: Number, required: true },
         status: {
           type: String,
           enum: ["Pending", "Confirmed", "Delivered"],
@@ -56,7 +56,7 @@ const orderSchema = new mongoose.Schema(
     },
     promoCode: { type: String },
     promoDiscount: { type: String },
-    discountedTotalprice:{ type: Number,required: true, },
+    discountedTotalprice: { type: Number, required: true },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
