@@ -14,8 +14,8 @@ const orderSchema = new mongoose.Schema(
     addresstype: { type: String },
     orderStatus: {
       type: String,
-      enum: ["Pending", "Confirmed", "Delivered"],
-      default: "Pending",
+      enum: ["Cancelled", "Confirmed", "Delivered"],
+      default: "Confirmed",
     },
     totalprice: { type: Number, required: true },
     oldmobileModel: { type: String },
@@ -45,8 +45,8 @@ const orderSchema = new mongoose.Schema(
         actualPrice: { type: Number, required: true },
         status: {
           type: String,
-          enum: ["Pending", "Confirmed", "Delivered"],
-          default: "Pending",
+      enum: ["Cancelled", "Confirmed", "Delivered"],
+      default: "Confirmed",
         },
       },
     ],
