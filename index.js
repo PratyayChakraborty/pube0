@@ -31,7 +31,7 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors("http://localhost:3001"));
+app.use(cors("http://localhost:3002"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
