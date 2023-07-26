@@ -40,7 +40,7 @@ const orderSchema = new mongoose.Schema(
           ref: "colorId",
           required: true,
         },
-        oldmobilePrice: { type: Number },
+      
         actualPrice: { type: Number, required: true },
         status: {
           type: String,
@@ -54,6 +54,7 @@ const orderSchema = new mongoose.Schema(
       ref: "address",
       required: true,
     },
+    oldmobilePrice: { type: Number },
     promoCode: { type: String },
     promoDiscount: { type: String },
     discountedTotalprice: { type: Number, required: true },
