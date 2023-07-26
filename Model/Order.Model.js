@@ -14,7 +14,7 @@ const orderSchema = new mongoose.Schema(
     addresstype: { type: String },
     orderStatus: {
       type: String,
-      enum: ["Cancelled", "Confirmed", "Delivered"],
+      enum: ["Cancelled", "Confirmed", "Delivered","Pending"],
       default: "Confirmed",
     },
     totalprice: { type: Number, required: true },
@@ -41,11 +41,10 @@ const orderSchema = new mongoose.Schema(
           ref: "colorId",
           required: true,
         },
-      
         actualPrice: { type: Number, required: true },
         status: {
           type: String,
-      enum: ["Cancelled", "Confirmed", "Delivered"],
+      enum: ["Cancelled", "Confirmed", "Delivered","Pending"],
       default: "Confirmed",
         },
       },
