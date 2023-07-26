@@ -115,18 +115,29 @@ OrderRoutes.patch("/update/:id", authMiddleware, async (req, res) => {
   }
 });
 
-OrderRoutes.patch("/cancelorder/:id",authMiddleware, async (req, res) => {
+OrderRoutes.patch("/cancel/:orderId", async (req, res) => {
+  const { orderId } = req.params;
+
   try {
-    
-      const data=await OrderModel.findByIdAndUpdate({ _id: req.params.id}, req.body);
-  
-      res.send({ msg: "updated Sucessfully" });
-    
-  } catch (err) {
-    console.log(err);
-    res.send(err);
+    const order = await OrderModel.findById(orderId);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    if (order.orderStatus === "Cancelled") {
+      return res.status(400).json({ message: "Order is already cancelled" });
+    }
+
+    order.orderStatus = "Cancelled";
+    await order.save();
+
+    return res.json({ message: "Order cancelled successfully" });
+  } catch (error) {
+    console.error("Error cancelling order:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
 });
+
 
 OrderRoutes.patch("/changestatus/:id", async (req, res) => {
   try {
