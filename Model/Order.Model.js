@@ -27,6 +27,7 @@ const orderSchema = new mongoose.Schema(
           ref: "product",
           required: true,
         },
+        actualPrice:{ type: Number, required: true },
         title: { type: String, required: true },
         image: { type: String, required: true },
         singleItemPrice: { type: Number, required: true },
