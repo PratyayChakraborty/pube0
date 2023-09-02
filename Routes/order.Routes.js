@@ -26,7 +26,7 @@ OrderRoutes.get("/", authMiddleware, async (req, res) => {
 OrderRoutes.get("/totalorder", async (req, res) => {
   try {
     const data = await OrderModel.find();
-    res.send({ data ,total:data.length});
+    res.send({ data, total: data.length });
   } catch (error) {
     res.status(404).send({ msg: "something went wrong" });
   }
@@ -35,7 +35,7 @@ OrderRoutes.get("/totalorder", async (req, res) => {
 OrderRoutes.get("/vendororder", authenticate, async (req, res) => {
   const token = req.headers.authorization;
   const decoded = jwt.verify(token, process.env.key);
-  
+
   try {
     const data = await OrderModel.find();
     const totaldata = [];
@@ -43,13 +43,15 @@ OrderRoutes.get("/vendororder", authenticate, async (req, res) => {
       const arr = [];
       for (let j = 0; j < data[i].products.length; j++) {
         if (data[i].products[j].vendorId == decoded.vendorId) {
-          arr.push({products:data[i].products[j],
-                    orderId:data[i]._id,
-                    AddressId:data[i].addressId,
-                    shippingAddress:data[i].shippingAddress,
-                    username:data[i].username,
-                    userId:data[i].userId,
-                    createdAt:data[i].createdAt});
+          arr.push({
+            products: data[i].products[j],
+            orderId: data[i]._id,
+            AddressId: data[i].addressId,
+            shippingAddress: data[i].shippingAddress,
+            username: data[i].username,
+            userId: data[i].userId,
+            createdAt: data[i].createdAt,
+          });
         }
       }
       if (arr.length > 0) {
@@ -61,7 +63,6 @@ OrderRoutes.get("/vendororder", authenticate, async (req, res) => {
     res.status(404).send({ msg: "something went wrong" });
   }
 });
-
 
 OrderRoutes.get("/orders", async (req, res) => {
   try {
@@ -115,13 +116,50 @@ OrderRoutes.patch("/update/:id", authMiddleware, async (req, res) => {
   }
 });
 
+OrderRoutes.patch("/cancel/:orderId",authMiddleware, async (req, res) => {
+  const { orderId } = req.params;
+
+  try {
+    const order = await OrderModel.findById(orderId);
+    const x = order.products.find((el) => el._id.toString() === req.body.Id);
+    
+    if (x) {
+      x.status = "Cancelled";
+      const y = await order.save();
+      console.log(y);
+    } else {
+      console.log("Product not found in order");
+    }
+    
+    // Rest of your code...
+
+    // if (!order) {
+    //   return res.status(404).json({ message: "Order not found" });
+    // }
+
+    // if (order.orderStatus === "Cancelled") {
+    //   return res.status(400).json({ message: "Order is already cancelled" });
+    // }
+
+    // order.orderStatus = "Cancelled";
+    // await order.save();
+
+    // return res.json({ message: "Order cancelled successfully" });
+  } catch (error) {
+    console.error("Error cancelling order:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+
 OrderRoutes.patch("/changestatus/:id", async (req, res) => {
   try {
-    
-      const data=await OrderModel.findByIdAndUpdate({ _id: req.params.id}, req.body);
-  
-      res.send({ msg: "updated Sucessfully" });
-    
+    const data = await OrderModel.findByIdAndUpdate(
+      { _id: req.params.id },
+      req.body
+    );
+
+    res.send({ msg: "updated Sucessfully" });
   } catch (err) {
     console.log(err);
     res.send(err);
@@ -151,11 +189,9 @@ OrderRoutes.delete("/delete/:id", authenticate, async (req, res) => {
 // Update an existing order
 OrderRoutes.put("/orders/:id", async (req, res) => {
   try {
-    const order = await OrderModel.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    );
+    const order = await OrderModel.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
